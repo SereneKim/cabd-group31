@@ -35,15 +35,15 @@ devtools::source_gist("c83e078bf8c81b035e32c3fc0cf04ee8",
 
 ![](https://www.cdc.gov/coronavirus/2019-ncov/images/vaccines/HCW_vaccine_page_transp-300x236-1.png?_=13435 "covidvaccine"){width="464"}
 
-The widespread prevalence of COVID-19 has urged countries to eradicate the virus by vaccinating their citizens. However, such a large-scale vaccination plan has encountered hesitancy and opposition from many people. The fear, doubts, and suspicions around the vaccine have appeared not only among the general citizens but also among the medical workers such as doctors and nurses [e.g., @browne2021coronavirus]. For instance, a survey shared by the Centers for Disease Control and Prevention found that 63% of surveyed health care workers reported they would not be willing to accept a COVID-19 vaccination \[@gorfinkel2022\]. Given this, we aim to answer the research question: 'Why are people unwilling to take or even against COVID-19 vaccines?' In doing so, we hope to find some variables that can be useful in improving vaccination rates.
+The widespread prevalence of COVID-19 has urged countries to eradicate the virus by vaccinating their citizens. However, such a large-scale vaccination plan has encountered hesitancy and opposition from many people. The fear, doubts, and suspicions around the vaccine have appeared not only among the general citizens but also among the medical workers such as doctors and nurses [e.g., @browne2021coronavirus]. For instance, a survey shared by the Centers for Disease Control and Prevention found that 63% of surveyed health care workers reported they would not be willing to accept a COVID-19 vaccination [@gorfinkel2022]. Given this, we aim to answer the research question: 'Why are people unwilling to take or even against COVID-19 vaccines?' In doing so, we hope to find some variables that can be useful in improving vaccination rates.
 
-The Oxford English dictionary defines an *anti-vaxxer* as "a person who is opposed to vaccination" [@stevenson2010\]. Some researchers have also characterized *vaccination hesitancy* as a more polite usage of the term *anti-vaccination* \[e.g., @razai2021\]. However, some researchers argue that anti-vaxxers and those with vaccine hesitancy should be considered as two different groups - the former being those who expect a scientific response and the latter promoting reductionist and ignore science \[e.g., @berman2020; @gorfinkel2022b]. In the current research, we agree with the first argument that treats *anti-vaccination* and *vaccine hesitancy* as a same concept. Therefore, we will use these two terms interchangeably in this project.
+The Oxford English dictionary defines an *anti-vaxxer* as "a person who is opposed to vaccination" [@stevenson2010\]. Some researchers have also characterized *vaccination hesitancy* as a more polite usage of the term *anti-vaccination* \[e.g., @razai2021\]. However, some researchers argue that anti-vaxxers and those with vaccine hesitancy should be considered as two different groups - the former being those who promote reductionist, broad-brush statements and ignore science, while the latter expecting a scientific response \[e.g., @berman2020; @gorfinkel2022b]. In the current research, we agree with the first argument that treats *anti-vaccination* and *vaccine hesitancy* as the same concept. Therefore, we will use these two terms interchangeably in this project.
 
 Our current research provides an answer to the main research question by exploring **two sub-questions**, using two types of data (i.e. Twitter data and survey data).
 
 In Study 1, with **Twitter** data from 01 October 2020 to 31 March 2021, we will explore ***what topics are associated with the anti-vaccination sentiment*** using an unsupervised topic model. The Latent Dirichlet Allocation (LDA) method will be used to construct the topic model. This analysis allows a glimpse of the characteristics of anti-vaccination sentiment - namely, where the negative sentiments about COVID-19 vaccination arise. With the insights we gather from Study 1, we further investigate ***the*** ***variables that may contribute to people's hesitation toward vaccination*** through survey data collected from the EU-27. The supervised machine learning methods, decision tree and random forest, will be employed. 
 
-As this survey data was collected between 15 February 2021 and 30 March 2021, we will be able to combine the insights with the ones from the Twitter data to obtain a more continuous inference. Additionally, this survey data not only provide responses to more specific questions regarding one's attitude towards COVID-19 vaccines but also socioeconomic and demographic data about the respondents, which are not available in the Twitter data. This richness of the data serves us to draw a better classification model to discover what makes one hesitant to vaccinate.
+As this survey data was collected between 15 February 2021 and 30 March 2021, we will be able to combine the insights with the ones from the Twitter data to obtain a more continuous inference. Additionally, this survey data provide responses to more specific questions regarding one's attitude towards COVID-19 vaccines and more detailed personal characteristics of the respondents (e.g., psychological profile, socioeconomic and demographic information), which are not available in the Twitter data. This richness of the data serves us to draw a better classification model to discover what makes one hesitant to vaccinate.
 
 Conclusively, we aim to explore two different types of 'big' data - Twitter data and (big) survey data - throughout this research. As we learned about the strong- and weak points of the two from the literature review (Assignment 1), we analyze the two types of data with the main research question in mind. We hope our research can shed a light on the current issue of vaccine hesitancy and help us understand the reasons behind people's reluctance or opposition to the COVID-19 vaccines.
 
@@ -120,11 +120,15 @@ tweets <- data[,'text']
 
 ## LDA on Oct & Nov Data Sets
 
+*Reference*: some codes from "Lecture 5 - Exercises and Solutions" are adopted in the following parts.
+
 In this section, we perform an *unsupervised* topic modeling on the October and November data sets with LDA method. Firstly, we preprocess and normalize the texts such that the textual data can be easily comprehended by the LDA algorithm. Then, in the second part, we will explore the frequently appeared terms which enlighten the possible topics emerging from the data. Lastly, we present the LDA results together with its visualization.
 
 ### Preprocessing
 
 #### Data Cleaning
+
+*Reference*: <https://stringr.tidyverse.org/articles/regular-expressions.html>
 
 Tweets contain contractions, abbreviations, emojis, non-alphanumeric characters, inter alia, that disturb the topic model to yield interpretable results. To focus on what really contributes to forming topics, we disregard the following types of texts:
 
@@ -165,6 +169,7 @@ clean <- function (contents){
 # Apply the function to the data
 cleaned_tweets <- clean(tweets)
 
+# Check whether the function does a good job
 # sum(str_detect(cleaned_tweets, "निर्मल") == TRUE)
 head(cleaned_tweets, 10)
 ```
@@ -335,6 +340,8 @@ DT::datatable(lda_results, class = "display", rownames = TRUE, options = list(pa
 
 #### Plotting
 
+*Reference*: Tatman, R (<https://www.kaggle.com/code/rtatman/nlp-in-r-topic-modelling>)
+
 Based on the phi values from the LDA, we plot the values with the high weight for each topic.
 
 ```{r top_fun, message=TRUE, warning=FALSE}
@@ -424,6 +431,8 @@ First we see that the term `depopulation` appears in all the topics except Topic
 Given that all negative terms such as `not`, `'t` and the general trend of the terms appeared in the plots, even some positive terms like `good` and `happy` cannot be interpreted positively. Generally, the message that 'COVID-19 and COVID-19 vaccines are part of the depopulation agenda of the elites' resonate through all the topics. On top of that, Topic 3 and Topic 5 denote people's negative view on the COVID-measures including wearing masks, lock-downs, and more. Such a negative view on the measures seems to be linked to the belief that global elites are trying to control people. When looking at Topic 7, we also notice that some may relate COVID-19 to depopulation agenda together with Climate Change as these terms appear to be engaged in the same topic. Despite minor differences in emphasis in each topic, many terms reappear in many topics and the extracted topics form a coherent theme of the Tweets of our interest - namely, conspiracy theory.
 
 ### Hash-tags
+
+*Reference*: <https://quanteda.io/>
 
 Lastly, we can look at the hash-tags and how they are related in order to extract more insights into the topics we got. Note here that as the tweets were collected with a list of key words (i.e., hash-tags), those words may appear more frequently. Nonetheless, plotting the relations between the hash-tags allows some general topics discussed in the tweets.
 
@@ -1050,3 +1059,9 @@ On the other hand, the survey data used in Study 2 has allowed a more direct too
 Nonetheless, we observe that the results from the topic model with the Twitter data and the supervised machine learning model with the Survey data overlap to some degree. This suggests that increasing trust in institutions, including firms, government, and academia, is vital to mitigate people's vaccine hesitancy. When more people feel that a few elites or people with the power maneuver the world, the trust will not grow and vaccine hesitancy will persist. Even though we cannot statistically compare the two results due to differences in the data and the methods, this conclusion allows us to think about the source of vaccine hesitancy and how to combat it. For future research, we suggest delving further into the relationship between people's assessment of the government's performance or big companies' contribution to the society on the one hand and the evolution of their trust in institutions on the other hand to study vaccine hesitancy. We also suggest that future studies could examine whether conspiracy theories influence individual acceptance of vaccines, and we advocate to distinguish anti-vaxxers from those who are hesitant to take vaccine, especially when studying anti-vaccine movements or protests.
 
 # References
+
+-   The authors adopted some codes from "Lecture 5 - Exercises and Solutions" of the course, Collecting and Analyzing Big Data for Social Sciences (professor Cecil Meeusen) as well as the documents of the packages (e.g., [quanteda](https://quanteda.io/), [seededlda](https://cran.r-project.org/web/packages/seededlda/seededlda.pdf), [stringr for regular expressions](https://stringr.tidyverse.org/articles/regular-expressions.html)) for Study 1.
+
+-   For plotting of Study 1, the authors were inspired by the blog post by Rachel Tatman (<https://www.kaggle.com/code/rtatman/nlp-in-r-topic-modelling>)
+
+-   
