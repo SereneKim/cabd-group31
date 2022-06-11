@@ -35,31 +35,27 @@ devtools::source_gist("c83e078bf8c81b035e32c3fc0cf04ee8",
 
 ![](https://www.cdc.gov/coronavirus/2019-ncov/images/vaccines/HCW_vaccine_page_transp-300x236-1.png?_=13435 "covidvaccine"){width="464"}
 
-The widespread prevalence of COVID-19 has urged countries to eradicate the virus by vaccinating their citizens. However, such a large-scale vaccination plan has encountered hesitancy and opposition from many people. The fear, doubts, and suspicions around the vaccine have appeared not only among the general citizens but also among the medical workers such as doctors and nurses [e.g., @browne2021coronavirus]. For instance, a survey shared by the Centers for Disease Control and Prevention found that 63% of surveyed health care workers reported they would not be willing to accept a COVID-19 vaccination \[@gorfinkel2022\]. Given this, we aim to answer the research question: 'Why are people unwilling to take or even against COVID-19 vaccines?' In doing so, we hope to find some variables that can be useful in improving vaccination rates.
+To vaccinate or not has been a recurring discussion since the beginning of the COVID-19 vaccine. Fear, doubts, and suspicions around the vaccine have appeared not only among the general citizens but also among the medical workers such as doctors and nurses \[e.g., \]. This slightly contrasts the observation that the anti-vaccination sentiment often goes hand in hand with the mistrust of the government and the medical industry [@rothstein2015vaccines]. Then, what does actually make the anti-vaccination sentiment or vaccine hesitancy during the COVID-19 crisis?
 
-The Oxford English dictionary defines an *anti-vaxxer* as "a person who is opposed to vaccination" [@stevenson2010\]. Some researchers have also characterized *vaccination hesitancy* as a more polite usage of the term *anti-vaccination* \[e.g., @razai2021\]. However, some researchers argue that anti-vaxxers and those with vaccine hesitancy should be considered as two different groups - the former being those who expect a scientific response and the latter promoting reductionist and ignore science \[e.g., @berman2020; @gorfinkel2022b]. In the current research, we agree with the first argument that treats *anti-vaccination* and *vaccine hesitancy* as a same concept. Therefore, we will use these two terms interchangeably in this project.
+We investigate the characteristics of vaccine hesitancy with two sub-questions. First, with the **Twitter** data from 01 October 2020 to 31 March 2021, we will explore *which topics were associated with the anti-vaccination sentiment using an unsupervised topic model*. Here, the LDA method will be used to construct the topic model. This analysis allows a glimpse of the characteristics of anti-vaccination sentiment - namely, where the negative sentiments about COVID-19 vaccination arise. With the insights we gather from the first step, we further analyze *the characteristics of vaccine hesitancy* with survey data, **Living, working and COVID-19 Wave 3.** As this data was collected between 15 February 2021 and 30 March 2021, we will be able to combine the insights with the ones from the Twitter data. This survey data provide responses to more specific questions regarding one's attitude towards COVID-19 vaccines and sociodemographic data about the respondents, which are not available in the Twitter data. This richness of the data serves us to draw a better classification model to discover what makes one hesitant to be vaccinated. Here, we utilize supervised machine learning methods such as a decision tree and random forest.
 
-Our current research provides an answer to the main research question by exploring **two sub-questions**, using two types of data (i.e. Twitter data and survey data).
+Note that as the Twitter data we will use are collected based on a list of anti-vaxxer keywords, the term *anti-vaccination sentiment* may be more proper for Study 1. Nevertheless, we assume that one's anti-vaccination sentiment reflects vaccine hesitancy, as one will be hesitant to vaccinate when they have a negative view of vaccination. Therefore, they will use the terms anti-vaccination sentiment and vaccine hesitancy interchangeably in this project.
 
-In Study 1, with **Twitter** data from 01 October 2020 to 31 March 2021, we will explore ***what topics are associated with the anti-vaccination sentiment*** using an unsupervised topic model. The Latent Dirichlet Allocation (LDA) method will be used to construct the topic model. This analysis allows a glimpse of the characteristics of anti-vaccination sentiment - namely, where the negative sentiments about COVID-19 vaccination arise. With the insights we gather from Study 1, we further investigate ***the*** ***variables that may contribute to people's hesitation toward vaccination*** through survey data collected from the EU-27. The supervised machine learning methods, decision tree and random forest, will be employed. 
-
-As this survey data was collected between 15 February 2021 and 30 March 2021, we will be able to combine the insights with the ones from the Twitter data to obtain a more continuous inference. Additionally, this survey data not only provide responses to more specific questions regarding one's attitude towards COVID-19 vaccines but also socioeconomic and demographic data about the respondents, which are not available in the Twitter data. This richness of the data serves us to draw a better classification model to discover what makes one hesitant to vaccinate.
-
-Conclusively, we aim to explore two different types of 'big' data - Twitter data and (big) survey data - throughout this research. As we learned about the strong- and weak points of the two from the literature review (Assignment 1), we analyze the two types of data with the main research question in mind. We hope our research can shed a light on the current issue of vaccine hesitancy and help us understand the reasons behind people's reluctance or opposition to the COVID-19 vaccines.
+Lastly, throughout the project, we aim to explore two types of 'big' data - Twitter data and (big) survey data. As we learned about their strong- and weak points from the literature review (Assignment 1), we will analyze the two types of data with the same research question in mind. We hope to discover more aspects of vaccine hesitancy with the two data.
 
 # Table of Contents
 
 ```{r toc, echo=FALSE, warning=FALSE, message=FALSE}
-render_toc("Twitter_Final.Rmd")
+render_toc("Group_31_Final.Rmd")
 ```
 
 # Study 1: NLP on Twitter Data
 
-The data sets come from @muric2021a who have been collecting the anti-vaxxer Twitter data since the beginning of the COVID-19 outbreak. Two types of data have been collected and made publicly available: streaming and account tweets. The former contains tweets collected based on keywords related to anti-vaccination, and the latter targets anti-vaxxer accounts and gives all the posts of those targeted accounts. Between the two types of data sets, we work with the streaming data from October 2020 to March 2021. Although the account data may give us more insights into the general characteristics of anti-vaccination sentiment, the size of the account data is too large to handle for the computational power we own. Moreover, as it includes all the tweets certain accounts posted, there is a lot of noise in the data which can lead to undesirable results for the research question. Hence, the streaming data is preferred as it involves smaller data sets and allows us to focus on the research question of the characteristics of anti-vaccination sentiment.
+The data sets come from @muric2021a who have been collecting the anti-vaxxer Twitter data since the beginning of the COVID-19 outbreak. Two types of data have been collected and made publicly available: streaming and account tweets. The former contains tweets collected based on keywords related to anti-vaccination, and the latter targets anti-vaxxer accounts and gives all the posts of those targeted accounts. Between the two types of data sets, we work with the streaming data from Oct-2020 to Mar-2021. Although the account data may give us more insights into the general characteristics of anti-vaccination sentiment, the size of the account data is too large to handle for the computational power we own. Moreover, as it includes all the tweets certain accounts posted, there is a lot of noise in the data which can lead to undesirable results for the research question. Hence, the streaming data is preferred as it involves smaller data sets and allows us to focus on the research question of the characteristics of anti-vaccination sentiment.
 
 In the following analysis, we use the streaming data of October 2020 to March 2021 which are the first 6 month period of collected data and where the COVID vaccine started being tested and prepared for distribution [@cnncovid]. We selected these data sets assuming that the anti-vaccination sentiment was more strongly expressed on social media at the beginning of the distribution than later.
 
-Due to the large data size, we will first focus on the tweets of October 2020 and November 2020. Then we will delve further into the rest of the data sets. Note here that, despite a large number of observation, we do not use a sampling method since each observation only contains maximum 280 characters and we have not encountered any problems running the following codes with the amount of data we have.
+Due to the large data size, we will first focus on the tweets of October 2020 and November 2020. Then we will delve further into the rest of the data sets. Note here that, despite a large number of observations, we do not use a sampling method since each observation only contains maximum 280 characters and we have not encountered any problems running the following codes with the amount of data we have.
 
 ## Setup
 
@@ -93,10 +89,10 @@ library(rtweet) # To get emojis dataset
 
 ### Loading Data
 
-First we will download all the data and divide them into different data frames per month. Following the privacy policies, only Tweet IDs have been shared in the Git repository of @muric2021a. Therefore, we used `Hydrator` to hydrate the obtained Tweet IDs and created cvs files.
+First we will download all the data and then divide them into different data frames per month. Following the privacy policies, only Tweet IDs have been shared in the Git repository of @muric2021a. Therefore, we used `Hydrator` to hydrate the obtained Tweet IDs and created cvs files.
 
 ```{r data}
-setwd("~/serene2/cabd_group31")
+setwd("~/serene2/cabd-group31")
 
 data_all <- lapply(Sys.glob(paths = "202*-*-merged.csv"), read.csv)
 ```
@@ -262,7 +258,7 @@ textplot_wordcloud(bigram_dfm, max_words = 100,
                    ordered_color = TRUE)
 ```
 
--   `Bill_Gate` , `Depopulation_Agendum` (i.e., lemma of Agenda), and `Great_Reset` are top 3 of the most frequent words. Again, we can interpret that there is a sentiment that 'elite such as Bill Gates trying to de-populate the world'.
+-   `Bill_Gate` , `Depopulation_Agendum` (i.e., lemma of Agenda), and `Great_Reset` are top 3 of the most frequent words. Again, we can interpret that there is a sentiment that "elite such as Bill Gates trying to de-populate the world".
 
 #### Trigrams
 
@@ -449,7 +445,7 @@ topgat_fcm <- fcm_select(tag_fcm, pattern = toptag)
 textplot_network(topgat_fcm, min_freq = 0.1, edge_alpha = 0.8, edge_size = 5)
 ```
 
-Based on the unsupervised topic modelling, we see that most tweets relate to the fear of being controlled by the so-called 'elites'. Also by plotting the hash-tags, we see 2 big chunks - (1) The one on the left hand side expresses people's opposition to the restrictions such as lock down and masks; (2) The one on the right hand side mainly concerns blaming the 'elites' when talking about COVID. Nevertheless, a distinct difference between the two chunks is not possible and similar hash-tags appear in both blobs.
+Based on the unsupervised topic modelling, we see that most tweets relate to the fear of being controlled by the so-called 'elites'. Also by plotting the hash-tags, we see 2 big chunks - (1) The one on the left hand side expresses people's opposition to the restrictions such as lock down and masks; (1) The one on the right hand side mainly concerns blaming the 'elites' when talking about COVID. Nevertheless, a distinct difference between the two chunks is not possible and similar hash-tags appear in both blobs.
 
 ## LDA with All Data
 
@@ -544,7 +540,7 @@ plt_fn(toptopic1, toptopic2, toptopic3, toptopic4, toptopic5, toptopic6, toptopi
 
 ```
 
-When considering all the data from October 2020 to March 2021, we recognize that the term `depopulation` does not appear as much as before in each topic. Instead, vaccination-related terms appeared more frequently (e.g., `vaccinated`, `unvaccinated` , `antivaccine`) Note again that `vaccinated` could mean `not vaccinated` in original tweets before tokenization. The following are the words that may represent each topic:
+When considering all the data from October 2020 to March 2021, we reconize that the term `depopulation` does not appear as much as before in each topic. Instead, vaccination-related terms appeared more frequently (e.g., `vaccinated`, `unvaccinated` , `antivaccine`) Note again that `vaccinated` could mean `not vaccinated` in original tweets before tokenization. The following are the words that may represent each topic:
 
 -   Topic 1: Vaccinate, Unvaccinated, People, Death, Data(Datum), Israel
 -   Topic 2: Depopulation, Agendum, World, Reset, Amp
@@ -616,15 +612,13 @@ p
 
 ```
 
-We see that **Topic 2,** which is about depopulation conspiracy theory with terms such as *Depopulation, Agendum, World, Reset, and Amp,* was the most discussed in October and then in November 2020. This goes in tandem with the introduction of the COVID-19 vaccine to the world. Similarly, **Topic 10**, which can be described by the terms, *Depopulation, Bill Gates, Antivaccine, and Medical*, is more discussed in 2020 than in 2021. **Topic 3** related to terms, *Unvaccinated, Child, Back, Teacher, School, and Die,* is most prominent March 2021 and then February 2021. This can be since many schools in the world start the academic year or start a semester after a break in February and March. **Topic 6**, concerning terms such as *vaxxed, leave, and Dr. Fauci*, show an ascending trend from October to December 2020 and then again from January 2021 to March 2021, while it occurred the most in March 2021. **Topic 9,** which is associated with terms such as *unvaccinated, racist, people, and food* appear most frequently in January 2021 while it is not so present in other months.
+We see that **Topic 2,** which is about depopulation conspiracy theory with terms such as *Depopulation, Agendum, World, Reset, and Amp,* was the most discussed in October and then in November 2020. This goes in tandem with the introduction of the COVID-19 vaccine to the world. Similarly, **Topic 10**,which can be described by the terms, *Depopulation, Bill Gates, Antivaccine, and Medical*, is more discussed in 2020 than in 2021. **Topic 3** related to terms,*Unvaccinated, Child, Back, Teacher, School, and Die,* is most prominent March 2021 and then February 2021. This can be since many schools in the world start the academic year or start a semester after a break in February and March. **Topic 6**, concerning terms such as *vaxxed, leave, and Dr. Fauci*, show an ascending trend from October to December 2020 and then again from January 2021 to March 2021, while it occurred the most in March 2021. **Topic 9,** which is associated with terms such as *unvaccinated, racist, people, and food* appear most frequently in January 2021 while it is not so present in other months.
 
 Other than these trends, we do not see an extreme variation across the months. To put it differently, all the topics are discussed in every month and no topic dominates the distribution extremely. Such a result may be due to the similarity between the topics as all of them are associated with conspiracy theory. Moreover, the fact that @muric2021a pre-selected the tweets with anti-vaccination sentiment can be a cause for the similarity between the topics. Considering this, we assess that it is not meaningful to label each tweet with different topics and perform a supervised topic analysis. Instead, we will use the insights we have gathered from analyzing the Twitter data in assessing the characteristics of the vaccine hesitancy with a survey data.
 
 ------------------------------------------------------------------------
 
 # Study 2: Survey study
-
-To complement the lack of personal information in the Twitter data, in the Study 2, we used survey data to explore the behind reasons why people oppose vaccines from a different perspective.
 
 ## Packages
 
@@ -659,9 +653,9 @@ library(e1071)
 
 ### Data collection and processing
 
-The data used in Study 2 - 'Living, Working and COVID-19 (round 3)' - was collected by Eurofound from EU-27 countries @ahrendt2020. The access of the preliminary data set was granted on 23 May 2022 by Eurofound.
+Study 2 used e-survey data - 'Living, Working and COVID-19 (round 3)' - collected by Eurofound from EU-27 countries @ahrendt2020. The access of the preliminary data set was granted on 23 May 2022 by Eurofound.
 
-Participants of this survey were recruited via uncontrolled convenience sampling, specifically by advertising on social media and distributing to Eurofound's stakeholders. The survey was released online via the SoSciSurvey platform. The round 3 data collection took place on 15 February 2021 and ended on 30 March 2021 in EU-27 countries.
+Participants of this e-survey were recruited via uncontrolled convenience sampling, specifically by advertising on social media and distributing to Eurofound's stakeholders. The e-survey was released online via the SoSciSurvey platform. The round 3 data collection took place on 15 February 2021 and ended on 30 March 2021 in EU-27 countries.
 
 Our accessed data set was already cleaned by Eurofound researchers to exclude partial interviews. The missing values (i.e., 'Don't know/Prefer not to answer', 'Not applicable' and skipped questions) have been coded as system missing.
 
@@ -669,9 +663,9 @@ In the current study, variables measured by Likert-scale with more than 5 levels
 
 ### Outcome measure: vaccine hesitancy
 
-Vaccine hesitancy was accessed in the survey by asking participants "*How likely or unlikely is it that you will take the COVID-19 vaccine when it becomes available to you?* " Participants were asked to reported their intention on a 5-point Likert scale from 1 *'very likely'* to 5 *'very unlikely'*.
+Vaccine hesitancy defined as hesitation to receive COVID-19 vaccine in the context of current pandemic. In our study, we interpreted vaccine hesitancy as having less intention to take COVID-19 vaccine. Participants were asked "*How likely or unlikely is it that you will take the COVID-19 vaccine when it becomes available to you?* " and reported their intention on a 5-point Likert scale from 1 *'very likely'* to 5 *'very unlikely'*.
 
-Because we are interested in understanding why people are unwilling to receive vaccine, those who answered 3 'neither likely nor unlikely' were removed from our analysis for showing ambiguous attitudes. Then, we categorized respondents who answered '*very likely*' and '*rather likely*' as people without vaccine hesitancy, and categorized the respondents who answered 'rather unlikely' and 'very unlikely' as ones with vaccine hesitancy.
+Because we are interested in predicting whether an individual was hesitatant to take COVID-19 vaccine, respondents who answered 3 'neither likely nor unlikely' were removed from our analysis for being ambiguous. Then, we categorized respondents who answered '*very likely*' and '*rather likely*' as people without vaccine hesitancy, and categorized the respondents who answered 'rather unlikely' and 'very unlikely' as ones with vaccine hesitancy.
 
 In our final sample, 23.7% respondents have vaccine hesitancy and 76.3% do not have it.
 
@@ -758,11 +752,11 @@ DT::datatable(mdv, class = "display", rownames=FALSE, options = list(
 
 ### Predictors measure
 
-Several interested variables in the data set were selected to build a model that could predict individual's hesitancy of vaccination, and explore their importance in contributing vaccine hesitancy. We mainly focus on variables related with trust, well-being, COVID-19 experience and socioeconomic and demographic variables.
+Several interested variables in the data set were selected to build a model that could predict individual's hesitancy of vaccination. We mainly focus on variables related with trust, well-being, COVID-19 experience and socioeconomic and demographic variables.
 
 #### Predictor variables: trust
 
-Trust was proved to correlates with COVID-19 vaccine hesitancy in many research [e.g., @schernhammer2022; @mewhirter2022]. One possible explanation is: the pandemic generated widespread disinformation that has undermines the acceptance and trust of science and policy, which extends to the issue of vaccine hesitancy @rawlings.
+Trust was proved to correlates with COVID-19 vaccine hesitancy in many research (e.g., @schernhammer2022; @mewhirter2022 ). One possible explanation is: the pandemic has generated widespread disinformation that has undermines the acceptance and trust of science and policy, which extends to the issue of vaccine hesitancy @rawlings.
 
 According to preliminary results of factor analysis, we divided trust into four factors: (1) trust in institutions: trust in police, trust in healthcare system, trust in government, trust in news media; (2) trust in science and pharmaceutical firms; (3) interpersonal trust: trust in people, trust in social media; (4) trust in European Union.
 
@@ -798,15 +792,17 @@ A person's experience with COVID-19 may influence their willingness to be vaccin
 
 #### Predictor variables: socioeconomic and demography
 
-Based on previous findings, we consider a number of socioeconomic and demographic variables that are potentially associated with vaccine hesitancy @lee2022; @mewhirter2022. We included 2 socioeconomic variables (i.e., variables that reflect an individual's status within a community): employment status, house saving. For demographic variables, we included 5: urbanization level, education level, country, gender, age.
+Based on previous findings, we consider a number of socioeconomic and demographic variables that are potentially associated with vaccine hesitancy @lee2022; @mewhirter2022. We included 2 socioeconomic variables (i.e., variables that reflect an individual's status within a community): employment status, house saving. For demographic variables, we included 5: urbanization level,education level, country, gender, age.
 
 #### Predictor variables: news source, self-resilience
 
-Finally, we considered news source and resilience as predictors of vaccine hesitancy. Online misinformation about COVID-19 vaccine was found linking to COVID-19 vaccination hesitancy and refusal @pierri2022. Compared to television programs, "news" published on social media are more likely to contain misinformation. For example, in Study 1, we found that anti-vaxxers often talk about topics related to conspiracy theory, and they are highly likely to see these mis- or unscientific information on social media (e.g., Twitter, Facebook) rather than from TV programs. Previous research has found that vaccine hesitancy was higher among those with high self-resilience than those with low self-resilience @schernhammer2022. Therefore, the self-resilience was also considered in this study. Self-resilience were accessed by two questions: (1) I find it difficult to deal with important problems that come up in my life, (2) When things go wrong in my life, it generally takes me a long time to get back to normal.
+Finally, we considered news source and resilience as predictors of vaccine hesitancy. Online misinformation about COVID-19 vaccine was found linking to COVID-19 vaccination hesitancy and refusal @pierri2022. Compared to television programs, news published on social media are more likely to contain misinformation, which could lead individual to mistrust the safety of vaccination. Previous research has found that vaccine hesitancy was higher among those with high self-resilience than those with low self-resilience @schernhammer2022. Two questions related to self-resilience were asked: (1) I find it difficult to deal with important problems that come up in my life, (2) When things go wrong in my life, it generally takes me a long time to get back to normal.
 
 ## Statistical models
 
-Two supervised machine learning methods, `Decision Trees` and `Random Forest` , are used to investigate our research question. These two methods were considered because they can compensate for each other. Decision tree is a simple and effective decision-making diagram, which can handle mixed data (i.e., categorical and continuous data). While random forest is an extension of Bagging both of which improve decision trees. Although decision trees are easy to interpret and visualize, it has potential to over-fit the data or derive a model that is not accurate enough. Random forest compensates these issues of decision trees by yielding more accurate and precise results and by preventing the model from over-fitting as it uses multiple trees with bootstrap samples. However, interpretation is more difficult than the decision trees due to its complex visualization of the results and it requires more computational power.
+We applied two supervised machine learning methods, `Decision Trees` and `Random Forest` , to investigate the importance of the influence of selected variables on aspects of vaccine hesitancy and to build an accurate model to predict vaccine attitude.
+
+These two methods were considered because they can compensate for each other. Decision tree is a simple and effective decision-making diagram, which can handle mixed data (i.e., categorical and continuous data). \[\*\*\] Random forest is an extension of Bagging both of which improve decision trees. Although decision trees are easy to interpret and visualize, it has potential to overfit the data or derive a model that is not accurate enough. Random forest compensates these issues of decision trees by yielding more accurate and precise results and by preventing the model from overfitting as it uses multiple trees with bootstrap samples. However, interpretation is more difficult than the decision trees due to its complex visualization of the results and it requires more computational power. \[\*\*\]
 
 ### Train and test set preparation
 
@@ -825,7 +821,7 @@ test <- mdv[-train_ind, ]
 
 #### Modeling and pruning - with all variables
 
-We first created a base model with low complexity parameter (`cp = 0`), which means that we allow decision tree to fully grow. Then, we pruned the model following Breiman's (1984) 1-SE rule (i.e., in practice, choose the simplest tree within one standard error of the best tree) [@breiman1984]. According to the output, the best tree is the one with lowest cross-validation relative error `xerror = 0.67244`. Based on 1SE rule, we chose the tree in row 8 (`xerror = 0.67919)`, which is lower than `0.67244 + 0.010151 = 0.682591`.
+We first created a base model with low complexity parameter (`cp = 0`), which means that we allow decision tree to fully grow. Then, we pruned the model following Breiman's (1984) 1-SE rule (i.e., in practice, choose the simplest tree within one standard error of the best tree). According to the output, the best tree is the one with lowest cross-validation relative error `xerror = 0.67244`. Based on 1SE rule, we chose the tree in row 8 (`xerror = 0.67919)`, which is lower than `0.67244 + 0.010151 = 0.682591`.
 
 ```{r base_DT}
 #base model
@@ -867,6 +863,8 @@ These results are in line with the findings by @mewhirter2022. @mewhirter2022 al
 rpart.plot(tree.prune)
 vip(tree.prune, num_features = 20, bar = F)
 ```
+
+> \[In Question\] Therefore, referring to the way @mewhirter2022 were done, we removed the *country* variable to see if the accuracy of the model decreased. In addition, we examined another model where countries are divided into two categories, above and below the EU average GDP, to explore whether it is the affluence of the country that influences people's attitude towards vaccines.
 
 #### Modeling and pruning - with trust variables
 
@@ -939,7 +937,7 @@ data.frame(base.accuracy.o,prune.accuracy.o,prune.accuracy.t, prune.accuracy)
 
 We first run a default random forest model, and then tuned the default model to find a better solution.
 
-The output of the default random forest model shows that 500 trees and tested 5 mtry values. The out-of-bag (OOB) error (i.e., prediction error of out-of-bags observations) is 14.46%. The `do.trace`argument allows us to see the change of OOB with the increase number of trees. As seen in the plot of OOB, the OBB has stabled when ntree = 500.
+The output of the default random forest model shows that 500 trees and tested 5 mtry values. The out-of-bag (OOB) error (i.e., prediction error of out-of-bags observations) is 14.46%. The `do.trace argument` allows us to see the change of OOB with the increase number of trees. As seen in the plot of OOB, the OBB has stabled when ntree = 500.
 
 ```{r random forest}
 set.seed(377)
@@ -1015,7 +1013,7 @@ rf.mat.t <- confusionMatrix(rf.pred.t, test$AntiVac)
 data.frame(rf.mat$overall[1],rf.mat.t$overall[1])
 ```
 
-## Conclusion
+## Conclusion and Discussion
 
 The following shows the accuracy of each model we have built.
 
@@ -1037,16 +1035,16 @@ ms
 
 Conclusively, our findings indicated that while some demographic variables - country, age, education - associated with vaccine hesitancy, our results from decision trees and random forests suggested that `trust in pharmaceutical firms` and `trust in science` are two important trust that need to be addressed to in understanding individual's vaccine hesitancy.
 
-# Final Conclusions & Future Directions
++add some limitations.
 
-Why are some people unwilling to take or even against COVID-19 vaccines? We explored the data from Twitter (tweeted between 01 October 2020 and 31 March 2021) and from Eurofound (surveyed between 15 February 2021 and 30 March 2021) to answer this research question. We found from Study 1 with Twitter data that most anti-vaccination sentiment, which often coincides with vaccine hesitancy, is associated with the discussions about the conspiracy theory. The anti-vaccination tweets demonstrated people's belief that elites or people with power control the world and that COVID-19 or the vaccine is their agenda to depopulate the world. Study 2, with survey data, showed us that most vaccine hesitancy is associated with people's trust in pharmaceutical firms and science and, to a lesser extent, with people's trust in the government.
+# Conclusion
 
-It is interesting to discover that the results of Study 1 and Study 2 resonate the debate on the definition of the terms *anti-vaccination* and *vaccination hesitancy*. For example, in the topic modeling with the Twitter data, we found words such as `depopulation`, `Bill Gates`, `Dr. Fauci`, `test`, and other conspiracy-theory-related terms, suggests that anti-vaxxers like to report distrust in a specific person or opinion. This narrow characterization of distrust reinforces @berman2020 argument that anti-vaxxers are a more extreme sample of people who are hesitant to vaccinate. Therefore, *anti-vaccination* and *vaccine hesitancy* can differ largely and may be treated separately. This falls into the limitation of our study in that we followed the definition of *vaccine hesitancy* that can be used interchangeability with *anti-vaccination*. Moreover, since the data of Study 1 had a focus on the anti-vaccination and the data of Study 2 covered rather a broader range of attitudes toward vaccination, the translation of results from Study 1 to Study 2 can be limited.
+What are the characteristics of anti-vaccination sentiment and/or vaccine hesitancy? We explored the data from Twitter (tweeted between 01 October 2020 and 31 March 2021) and from Eurofound (surveyed between 15 February 2021 and 30 March 2021) to answer the research question. We found from Study 1 with Twitter data that most anti-vaccination sentiment, which often coincides with vaccine hesitancy, is associated with the discussions about the conspiracy theory. The anti-vaccination tweets showed people's belief that elites or people with power control the world and that COVID-19 or the vaccine is their agenda to depopulate the world. Study 2, with survey data, showed us that most vaccine hesitancy is associated with people's trust in pharmaceutical firms and science and, to a lesser extent, with people's trust in the government. This result is interesting given that, indeed, in the topic modeling with the Twitter data, we found words such as `depopulation`, `Bill Gates`, `Dr. Fauci`, `test`, and other conspiracy-theory-related terms, which can be related to one's trust in science.
 
-Each study also has some limitations. For Study 1, the tweets were pre-selected based on the keywords about anti-vaccination, which could influence the results of topic modeling, yielding similar topics. Moreover, analyzing the Twitter data, we realized that some accounts with strong anti-vaccination sentiment might have dominated the discussion. For instance, taking the data for all six months, the 359,688 tweets are posted by only 196,043 accounts, meaning that each of the 196,043 accounts posted 1.8 tweets on average. Consequently, the results of our topic analysis may be biased and cannot be fully translated as variables that explain one's vaccine hesitancy.
+For Study 1, some limitations existed as the tweets were selected based on the keywords about anti-vaccination. The pre-selection influenced the results of topic modeling, yielding similar topics. Moreover, analyzing the Twitter data, we realized that some accounts with strong anti-vaccination sentiment might have dominated the discussion. For instance, taking the data for all six months, the 359,688 tweets are posted by only 196,043 accounts, meaning that each of the 196,043 accounts posted 1.8 tweets on average. Consequently, the results of our topic analysis may be biased and cannot be fully translated as variables that explain one's vaccine hesitancy.
 
-On the other hand, the survey data used in Study 2 has allowed a more direct tool to discover the variables to explain one's vaccine hesitancy. With the question targeted to inquiring into people's attitudes toward the COVID-19 vaccine, we could learn that a higher trust in pharmaceutical firms and science tends to associate with a lower degree of vaccine hesitancy and vice versa. However, the nature of the online survey excluded an older generation from the study as well as the fact that the respondents might not have been candid with their answers leaves some possibilities for bias. Another limitation of Study 2 is while the country variable appeared very important, we did not yet figure out why and how it matters for vaccine hesitancy. Moreover, we were unable to see the interaction effect of predictors.
+On the other hand, the survey data used in Study 2 has allowed a more direct tool to discover the variables to explain one's vaccine hesitancy. With the question targeted to inquiring into people's attitudes toward the COVID-19 vaccine, we could learn that a higher trust in pharmaceutical firms and science tends to associate with a lower degree of vaccine hesitancy and vice versa. However, the nature of the online survey excluded an older generation from the study as well as the fact that the respondents might not have been candid with their answers leaves some possibilities for bias.
 
-Nonetheless, we observe that the results from the topic model with the Twitter data and the supervised machine learning model with the Survey data overlap to some degree. This suggests that increasing trust in institutions, including firms, government, and academia, is vital to mitigate people's vaccine hesitancy. When more people feel that a few elites or people with the power maneuver the world, the trust will not grow and vaccine hesitancy will persist. Even though we cannot statistically compare the two results due to differences in the data and the methods, this conclusion allows us to think about the source of vaccine hesitancy and how to combat it. For future research, we suggest delving further into the relationship between people's assessment of the government's performance or big companies' contribution to the society on the one hand and the evolution of their trust in institutions on the other hand to study vaccine hesitancy. We also suggest that future studies could examine whether conspiracy theories influence individual acceptance of vaccines, and we advocate to distinguish anti-vaxxers from those who are hesitant to take vaccine, especially when studying anti-vaccine movements or protests.
+Nonetheless, we observe that the results from the topic model with the Twitter data and the supervised machine learning model with the Survey data overlap to some degree. This suggests that increasing trust in institutions, including firms, government, and academia, is vital to mitigate people's vaccine hesitancy. When more people feel that a few elites or people with the power maneuver the world, the trust will not grow and vaccine hesitancy will persist. Even though we cannot statistically compare the two results due to differences in the data and the methods, this conclusion allows us to think about the source of vaccine hesitancy and how to combat it. For future research, we suggest delving further into the relationship between people's assessment of the government's performance or big companies' contribution to the society on the one hand and the evolution of their trust in institutions on the other hand to study vaccine hesitancy.
 
 # References
