@@ -37,7 +37,7 @@ devtools::source_gist("c83e078bf8c81b035e32c3fc0cf04ee8",
 
 The widespread prevalence of COVID-19 has urged countries to eradicate the virus by vaccinating their citizens. However, such a large-scale vaccination plan has encountered hesitancy and opposition from many people. The fear, doubts, and suspicions around the vaccine have appeared not only among the general citizens but also among the medical workers such as doctors and nurses [e.g., @browne2021coronavirus]. For instance, a survey shared by the Centers for Disease Control and Prevention found that 63% of surveyed health care workers reported they would not be willing to accept a COVID-19 vaccination [@gorfinkel2022]. Given this, we aim to answer the research question: 'Why are people unwilling to take or even against COVID-19 vaccines?' In doing so, we hope to find some variables that can be useful in improving vaccination rates.
 
-The Oxford English dictionary defines an *anti-vaxxer* as "a person who is opposed to vaccination" [@stevenson2010\]. Some researchers have also characterized *vaccination hesitancy* as a more polite usage of the term *anti-vaccination* \[e.g., @razai2021\]. However, some researchers argue that anti-vaxxers and those with vaccine hesitancy should be considered as two different groups - the former being those who promote reductionist, broad-brush statements and ignore science, while the latter expecting a scientific response \[e.g., @berman2020; @gorfinkel2022b]. In the current research, we agree with the first argument that treats *anti-vaccination* and *vaccine hesitancy* as the same concept. Therefore, we will use these two terms interchangeably in this project.
+The Oxford English dictionary defines an *anti-vaxxer* as "a person who is opposed to vaccination" [@stevenson2010\]. Some researchers have also characterized *vaccination hesitancy* as a more polite usage of the term *anti-vaccination* \[e.g., @razai2021\]. However, some researchers argue that anti-vaxxers and those with vaccine hesitancy should be considered as two different groups - the former being those who promote reductionist, broad-brush statements and ignore science, while the latter expecting a scientific response \[e.g., @berman2020; @gorfinkel2022]. In the current research, we agree with the first argument that treats *anti-vaccination* and *vaccine hesitancy* as the same concept. Therefore, we will use these two terms interchangeably in this project.
 
 Our current research provides an answer to the main research question by exploring **two sub-questions**, using two types of data (i.e. Twitter data and survey data).
 
@@ -815,6 +815,32 @@ Finally, we considered news source and resilience as predictors of vaccine hesit
 
 ## Statistical models
 
+*Reference*:
+
+Some codes from:
+
+-   <https://www.guru99.com/r-decision-trees.html>
+
+-   <https://bradleyboehmke.github.io/HOML/DT.html>
+
+are adopted in Decision Tree model generation part.
+
+Some codes from:
+
+-   <https://towardsdatascience.com/exploratory-factor-analysis-in-r-e31b0015f224>
+
+are adopted in doing factor analysis of trust-related variables.
+
+Some codes from:
+
+-   <https://www.geeksforgeeks.org/random-forest-approach-in-r-programming/#:~:text=Random%20Forest%20in%20R%20Programming,when%20employed%20on%20its%20own.>
+
+-   <https://www.guru99.com/r-random-forest-tutorial.html>
+
+-   <https://www.statology.org/random-forest-in-r/>
+
+are adopted in the Random Forest model generation part.
+
 Two supervised machine learning methods, `Decision Trees` and `Random Forest` , are used to investigate our research question. These two methods were considered because they can compensate for each other. Decision tree is a simple and effective decision-making diagram, which can handle mixed data (i.e., categorical and continuous data). While random forest is an extension of Bagging both of which improve decision trees. Although decision trees are easy to interpret and visualize, it has potential to over-fit the data or derive a model that is not accurate enough. Random forest compensates these issues of decision trees by yielding more accurate and precise results and by preventing the model from over-fitting as it uses multiple trees with bootstrap samples. However, interpretation is more difficult than the decision trees due to its complex visualization of the results and it requires more computational power.
 
 ### Train and test set preparation
@@ -1064,4 +1090,6 @@ Nonetheless, we observe that the results from the topic model with the Twitter d
 
 -   For plotting of Study 1, the authors were inspired by the blog post by Rachel Tatman (<https://www.kaggle.com/code/rtatman/nlp-in-r-topic-modelling>)
 
--   
+-   The authors inspired by some codes from Decision tree, Bagging and Random Forests chapter in [Hands-On Machine Learning with R](https://bradleyboehmke.github.io/HOML/) e-book.
+
+-   The authors combined and tweaked some codes from [Guru99](https://www.guru99.com/) (author Daniel Johnson) and from [GeeksforGeeks](https://www.geeksforgeeks.org/random-forest-approach-in-r-programming/#:~:text=Random%20Forest%20in%20R%20Programming,when%20employed%20on%20its%20own.) "Random Forest Approach in R Programming" when building random forest in Study 2.
