@@ -35,13 +35,13 @@ devtools::source_gist("c83e078bf8c81b035e32c3fc0cf04ee8",
 
 ![](https://www.cdc.gov/coronavirus/2019-ncov/images/vaccines/HCW_vaccine_page_transp-300x236-1.png?_=13435 "covidvaccine"){width="464"}
 
-The widespread prevalence of COVID-19 has urged countries to eradicate the virus by vaccinating their citizens. However, such a large-scale vaccination plan has encountered hesitancy and opposition from many people. The fear, doubts, and suspicions around the vaccine have appeared not only among the general citizens but also among the medical workers such as doctors and nurses [e.g., @browne2021coronavirus]. For instance, a survey shared by the Centers for Disease Control and Prevention found that 63% of surveyed health care workers reported they would not be willing to accept a COVID-19 vaccination [@gorfinkel2022]. Given this, we aim to answer the research question: 'Why are people unwilling to take or even against COVID-19 vaccines?' In doing so, we hope to find some variables that can be useful in improving vaccination rates.
+The widespread prevalence of COVID-19 has urged countries to eradicate the virus by vaccinating their citizens. However, such a large-scale vaccination plan has encountered hesitancy and opposition from many people. The fear, doubts, and suspicions around the vaccine have appeared not only among the general citizens but also among the medical workers such as doctors and nurses [@browne2021coronavirus]. For instance, a survey shared by the Centers for Disease Control and Prevention found that 63% of surveyed health care workers reported they would not be willing to accept a COVID-19 vaccination [@gorfinkel2022]. Given this, we aim to answer the research question: 'Why are people unwilling to take or even against COVID-19 vaccines?' In doing so, we hope to find some variables that can be useful in improving vaccination rates.
 
-The Oxford English dictionary defines an *anti-vaxxer* as "a person who is opposed to vaccination" [@stevenson2010\]. Some researchers have also characterized *vaccination hesitancy* as a more polite usage of the term *anti-vaccination* \[e.g., @razai2021\]. However, some researchers argue that anti-vaxxers and those with vaccine hesitancy should be considered as two different groups - the former being those who promote reductionist, broad-brush statements and ignore science, while the latter expecting a scientific response \[e.g., @berman2020; @gorfinkel2022]. In the current research, we agree with the first argument that treats *anti-vaccination* and *vaccine hesitancy* as the same concept. Therefore, we will use these two terms interchangeably in this project.
+The Oxford English dictionary defines an *anti-vaxxer* as "a person who is opposed to vaccination"[@stevenson2010]. Some researchers have also characterized *vaccination hesitancy* as a more polite usage of the term anti-vaccination [@razai2021]. However, some researchers argue that anti-vaxxers and those with vaccine hesitancy should be considered as two different groups - the former being those who promote reductionist, broad-brush statements and ignore science, while the latter expecting a scientific response [ @berman2020; @gorfinkel2022]. In the current research, we agree with the first argument that treats *anti-vaccination* and *vaccine hesitancy* as the same concept. Therefore, we will use these two terms interchangeably in this project.
 
 Our current research provides an answer to the main research question by exploring **two sub-questions**, using two types of data (i.e. Twitter data and survey data).
 
-In Study 1, with **Twitter** data from 01 October 2020 to 31 March 2021, we will explore ***what topics are associated with the anti-vaccination sentiment*** using an unsupervised topic model. The Latent Dirichlet Allocation (LDA) method will be used to construct the topic model. This analysis allows a glimpse of the characteristics of anti-vaccination sentiment - namely, where the negative sentiments about COVID-19 vaccination arise. With the insights we gather from Study 1, we further investigate ***the*** ***variables that may contribute to people's hesitation toward vaccination*** through survey data collected from the EU-27. The supervised machine learning methods, decision tree and random forest, will be employed. 
+In Study 1, with **Twitter** data from 01 October 2020 to 31 March 2021, we will explore ***what topics are associated with the anti-vaccination sentiment*** using an unsupervised topic model. The Latent Dirichlet Allocation (LDA) method will be used to construct the topic model. This analysis allows a glimpse of the characteristics of anti-vaccination sentiment - namely, where the negative sentiments about COVID-19 vaccination arise. With the insights we gather from Study 1, we further investigate ***the*** ***variables that may contribute to people's hesitation toward vaccination*** through survey data collected from the EU-27. The supervised machine learning methods, decision tree and random forest, will be employed. 
 
 As this survey data was collected between 15 February 2021 and 30 March 2021, we will be able to combine the insights with the ones from the Twitter data to obtain a more continuous inference. Additionally, this survey data provide responses to more specific questions regarding one's attitude towards COVID-19 vaccines and more detailed personal characteristics of the respondents (e.g., psychological profile, socioeconomic and demographic information), which are not available in the Twitter data. This richness of the data serves us to draw a better classification model to discover what makes one hesitant to vaccinate.
 
@@ -50,7 +50,7 @@ Conclusively, we aim to explore two different types of 'big' data - Twitter data
 # Table of Contents
 
 ```{r toc, echo=FALSE, warning=FALSE, message=FALSE}
-render_toc("Twitter_Final.Rmd")
+render_toc("Group_31_Final.Rmd")
 ```
 
 # Study 1: NLP on Twitter Data
@@ -96,7 +96,7 @@ library(rtweet) # To get emojis dataset
 First we will download all the data and divide them into different data frames per month. Following the privacy policies, only Tweet IDs have been shared in the Git repository of @muric2021a. Therefore, we used `Hydrator` to hydrate the obtained Tweet IDs and created cvs files.
 
 ```{r data}
-setwd("~/serene2/cabd_group31")
+setwd("~/serene2/cabd-group31")
 
 data_all <- lapply(Sys.glob(paths = "202*-*-merged.csv"), read.csv)
 ```
@@ -197,7 +197,7 @@ lem_tweets <- lemmatize_strings(corp_tweets)
 
 #### Tokenization
 
-Once the lemmatized, we tokenize the corpus of the text data into words. Here, we remove all the stop words. Often, `stopwords("english")` is used but we opted for `SMART` as it contains more stop words than the former. As mentioned in Section \@ref(data-cleaning), we also added other words that we saw appearing even after removing the stop words such as `bc` (the abbreviation of the term, *because*), `don` (a part of *don't*), and French articles, `de` and `la`.
+Once the lemmatized, we tokenize the corpus of the text data into words. Here, we remove all the stop words. Often, `stopwords("english")` is used but we opted for `SMART` as it contains more stop words than the former. As mentioned in Section 2.2.1.1, we also added other words that we saw appearing even after removing the stop words such as `bc` (the abbreviation of the term, *because*), `don` (a part of *don't*), and French articles, `de` and `la`.
 
 Note that the stop words include negations - e.g., don't, not, - which might be influential for sentiment analysis. But for the topic modeling, it is preferred to remove the negations.
 
@@ -313,7 +313,7 @@ bigram_dfm %>%
 
 ### LDA (Unsupervised Text Modelling)
 
-Now we apply the LDA algorithm to the text data we preprocessed. For this, we use a document-feature matrix which we already created with Section \@ref(unigrams-wordcloud). Moreover, we trim the document feature matrix such that the words that mentioned too many times or too fewer times will be neglected in the analysis. Extremely high or low frequency of words implies their low importance in the content. Given the word limits on Tweets and the large number of the 'documents' (i.e., Tweets), we only apply the limits based on the proportion of each term across documents using the arguments of `min_docfreq` and `max_docfreq`, instead of limiting an exact minimum/maximum number of words occurring by `min_termfreq` / `max_termfreq`. Accordingly, we keep the terms that occur at least in 1 of 100 documents and at most, in 4 of 5 documents.
+Now we apply the LDA algorithm to the text data we preprocessed. For this, we use a document-feature matrix which we already created with Section 2.2.2.2. Moreover, we trim the document feature matrix such that the words that mentioned too many times or too fewer times will be neglected in the analysis. Extremely high or low frequency of words implies their low importance in the content. Given the word limits on Tweets and the large number of the 'documents' (i.e., Tweets), we only apply the limits based on the proportion of each term across documents using the arguments of `min_docfreq` and `max_docfreq`, instead of limiting an exact minimum/maximum number of words occurring by `min_termfreq` / `max_termfreq`. Accordingly, we keep the terms that occur at least in 1 of 100 documents and at most, in 4 of 5 documents.
 
 ```{r}
 dfmtrim <- unigram_dfm %>% 
@@ -327,7 +327,7 @@ tweets_lda <- textmodel_lda(dfmtrim, k = 10) # 10 topics
 DT::datatable(terms(tweets_lda), class = "display", rownames=FALSE, options = list(pageLength = 10, autoWidth = FALSE))
 ```
 
-The LDA yields `phi` and `theta` where the former gives the distribution of words for topic *k*, and the latter produces the distribution of topics for document *i.* We will utilize `phi` values to visualize what terms are highly engaged with each topic.
+The LDA yields `phi` and `theta` where the former gives the distribution of words for topic *k*, and the latter produces the distribution of topics for document *i*. We will utilize `phi` values to visualize what terms are highly engaged with each topic.
 
 ```{r}
 # tweets_lda$phi # between topic and words
@@ -488,7 +488,7 @@ data_all_in$cleaned_tweets_all <- cleaned_tweets_all
 
 #### Data Preparation for LDA
 
-We do the same preprocessing as in Section \@ref(preprocessing).
+We do the same preprocessing as in Section 2.2.1.
 
 ```{r}
 #Corpus
@@ -1014,7 +1014,7 @@ model.rf.2 <- randomForest(AntiVac~., data = train, ntree = 500, mtry = 10)
 model.rf.2
 ```
 
-As done for decision tree model, we also check the confusion matrix and the accuracy of random forest model. The results showed that the accuracy of the random forest model (0.8584 \[0.8514, 0.867\] is better than decision tree model (0.835), but not too much.
+As done for decision tree model, we also check the confusion matrix and the accuracy of random forest model. The results showed that the accuracy of the random forest model (0.8584 [0.8514, 0.867]) is better than decision tree model (0.835), but not too much.
 
 ```{r prediction}
 rf.pred <- predict(model.rf.2, test)
